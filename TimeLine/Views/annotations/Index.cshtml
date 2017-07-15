@@ -1,0 +1,89 @@
+﻿@model IEnumerable<TimeLine.Models.annotation>
+
+
+<div class="container">
+ 
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create New Entry</h4>
+                </div>
+                <div class="modal-body">
+                    @Html.Action("PartialCreate", "annotations")
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                   
+                </div>
+               
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@if (Model.Count() == 0)
+{
+    <div class="alert alert-success" role="alert">
+        Hey, you haven't created any entries as yet, it's a bit loonley here, click the Create button and add some!
+    </div>
+
+}
+else
+{ 
+
+    <section id="cd-timeline" class="cd-container">
+         
+    @foreach (var item in Model)
+         {
+             <div class="cd-timeline-block">
+                 <div class="cd-timeline-img cd-picture">
+                     <img src="~/img/cd-icon-picture.svg" alt="Picture">
+                 </div> <!-- cd-timeline-img -->
+                 <div class="cd-timeline-content">
+                     <h2>@Html.DisplayFor(modelItem => item.subject)</h2>
+
+                     <p>@Html.DisplayFor(modelItem => item.description)</p>
+                     <div class="cd-read-more">@Html.DisplayFor(modelItem => item.username)</div>
+
+                     <span class="cd-date">@Html.DisplayFor(modelItem => item.datetime)</span>
+                     
+                     
+                         @Html.ActionLink("Delete", "Delete", new { id = item.id }, new { @class = "btn btn-warning" })
+                     
+                 </div> <!-- cd-timeline-content -->
+             </div> <!-- cd-timeline-block -->
+         }
+     </section> <!-- cd-timeline -->
+}
+
+
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif|Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="~/Content/reset.css"> <!-- CSS reset -->
+    <link rel="stylesheet" href="~/Content/style.css"> <!-- Resource style -->
+    
+    <script src="~/Scripts/modernizr.js"></script> <!-- Modernizr -->
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="~/Scripts/main.js"></script> <!-- Resource jQuery -->
+
+
+<script>
+
+    var CreateAnnotation = function ()
+    {
+        var url = "/annotations/PartialCreate"
+
+        $("#myModal").load(url, function () {
+            $("#myModal").modal("show");
+        })
+
+    }
+
+
+</script>
